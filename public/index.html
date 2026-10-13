@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Devmux: Ticket, Verify, Welcome and Leave bot for Discord</title>
+<meta name="description" content="Devmux is a clean Discord bot for tickets, verification, welcome and leave messages. Customize every command from a simple web dashboard.">
+<link rel="canonical" href="https://YOURDOMAIN.com/">
+<meta property="og:title" content="Devmux Discord Bot"><meta property="og:description" content="Tickets, verify, welcome and leave. Customize every command from the dashboard."><meta property="og:type" content="website"><meta property="og:url" content="https://YOURDOMAIN.com/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=Manrope:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0F0709;--sf:#1A0C10;--ink:#F8ECEE;--mute:#A98A90;--line:#33181F;--acc:#FF3B4E;--accs:#3A121A;--d:'Bricolage Grotesque','Segoe UI',sans-serif;--b:'Manrope','Segoe UI',sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:light){:root{--bg:#FBF3F3;--sf:#fff;--ink:#2A0F14;--mute:#8A6870;--line:#EFD9DC;--acc:#D61F36;--accs:#FDE8EB}}
+*{box-sizing:border-box;margin:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--b);overflow-x:hidden}
+.w{max-width:1040px;margin:auto;padding:0 20px}
+.blob{position:fixed;width:50vmax;height:50vmax;border-radius:50%;background:var(--acc);opacity:.12;filter:blur(100px);top:-20vmax;right:-14vmax;z-index:-1;animation:dr 20s ease-in-out infinite alternate}
+@keyframes dr{to{transform:translate(-10vmax,12vmax) scale(1.2)}}
+nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+.brand{font:800 24px var(--d);letter-spacing:-.03em;display:flex;gap:10px;align-items:center}
+.mk{display:flex;gap:3px;align-items:flex-end;height:20px}.mk i{width:5px;background:var(--acc);border-radius:2px;animation:g 1s cubic-bezier(.2,.9,.2,1) both}.mk i:nth-child(1){height:10px}.mk i:nth-child(2){height:20px;animation-delay:.1s}.mk i:nth-child(3){height:14px;animation-delay:.2s}
+@keyframes g{from{transform:scaleY(0);transform-origin:bottom}}
+.btn{display:inline-block;padding:12px 24px;border-radius:14px;border:1px solid var(--line);font-weight:600;text-decoration:none;color:var(--ink);transition:all .3s}
+.btn:hover{border-color:var(--acc);transform:translateY(-2px)}.btn.p{background:var(--acc);border-color:var(--acc);color:#fff}.btn.p:hover{box-shadow:0 10px 30px #ff3b4e44}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;padding:60px 0 80px}
+h1{font:800 clamp(40px,7vw,72px)/1 var(--d);letter-spacing:-.045em}h1 span{color:var(--acc)}
+.hero p{color:var(--mute);margin:20px 0 28px;max-width:46ch}.hero .btn{margin:0 10px 10px 0}
+.up{animation:up .8s cubic-bezier(.2,.9,.2,1) both;animation-delay:calc(var(--i,0)*100ms)}@keyframes up{from{opacity:0;transform:translateY(20px)}}
+.term{background:var(--sf);border:1px solid var(--line);border-radius:18px;padding:22px;font:500 15px/2.1 ui-monospace,Menlo,monospace;box-shadow:0 30px 80px #ff3b4e1a}
+.term p{margin:0;opacity:0;animation:up .6s forwards;animation-delay:calc(var(--i)*.7s + .8s)}.term b{color:var(--acc)}.term small{color:var(--mute);font-size:13px}
+h2{font:800 clamp(28px,4vw,40px)/1.1 var(--d);letter-spacing:-.03em;margin-bottom:28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:80px}
+.card{background:var(--sf);border:1px solid var(--line);border-radius:18px;padding:24px;transition:all .4s cubic-bezier(.2,.9,.2,1)}.card:hover{border-color:var(--acc);transform:translateY(-6px)}
+.card h3{font:700 20px var(--d);margin-bottom:6px}.card p{color:var(--mute);font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:80px}.chips span{padding:8px 16px;border-radius:99px;background:var(--accs);color:var(--acc);font:600 14px ui-monospace,Menlo,monospace;transition:transform .25s}.chips span:hover{transform:scale(1.08)}
+.cta{text-align:center;background:var(--sf);border:1px solid var(--line);border-radius:24px;padding:56px 20px;margin-bottom:60px}.cta p{color:var(--mute);margin:12px 0 24px}
+footer{color:var(--mute);font-size:14px;padding:0 0 40px;text-align:center}
+.rv{opacity:0;transform:translateY(28px);transition:opacity .8s,transform .8s cubic-bezier(.2,.9,.2,1)}.rv.in{opacity:1;transform:none}
+@media(max-width:760px){.hero{grid-template-columns:1fr;padding-top:30px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rv,.term p{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="blob"></div>
+<div class="w">
+<nav><div class="brand"><span class="mk"><i></i><i></i><i></i></span>Devmux</div><a class="btn" href="/dashboard.html">Dashboard</a></nav>
+<section class="hero">
+<div><h1 class="up">Run your server.<br><span>Without the noise.</span></h1>
+<p class="up" style="--i:1">Devmux handles tickets, verification, welcome and leave messages. Change every command from one clean dashboard.</p>
+<div class="up" style="--i:2"><a class="btn p" href="https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&amp;scope=bot%20applications.commands">Add to Discord</a><a class="btn" href="/dashboard.html">Open dashboard</a></div></div>
+<div class="term up" style="--i:3" aria-hidden="true"><p style="--i:0"><b>/ticket panel</b><br><small>Panel sent to #support</small></p><p style="--i:1"><b>/verify panel</b><br><small>Members can now verify</small></p><p style="--i:2"><b>/welcome set</b><br><small>Welcome message saved</small></p></div>
+</section>
+<h2 class="rv" id="features">Everything you need, nothing you don't</h2>
+<div class="grid">
+<div class="card rv"><h3>Tickets</h3><p>Private support threads with a panel, close and add or remove members.</p></div>
+<div class="card rv" style="transition-delay:.1s"><h3>Verify</h3><p>One button to unlock your server, with a log of who verified.</p></div>
+<div class="card rv" style="transition-delay:.2s"><h3>Welcome</h3><p>Greet new members with your own message and variables.</p></div>
+<div class="card rv" style="transition-delay:.3s"><h3>Leave</h3><p>Send a goodbye message when someone leaves.</p></div>
+</div>
+<h2 class="rv" id="commands">Commands</h2>
+<div class="chips rv"><span>/ticket panel</span><span>/ticket close</span><span>/ticket add</span><span>/ticket remove</span><span>/verify panel</span><span>/verify logs</span><span>/welcome set</span><span>/welcome test</span><span>/leave set</span><span>/leave test</span><span>/help</span></div>
+<div class="cta rv"><h2 style="margin:0">Control it all from the dashboard</h2><p>Log in with Discord and edit only the servers you manage.</p><a class="btn p" href="/dashboard.html">Log in with Discord</a></div>
+<footer>&copy; Devmux</footer>
+</div>
+<script>
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.15});
+document.querySelectorAll('.rv').forEach(e=>io.observe(e));
+</script>
+</body>
+</html>
